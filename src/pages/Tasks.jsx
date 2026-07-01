@@ -22,10 +22,11 @@ const Tasks = () => {
       <h1>Task List</h1> <hr />
       <div>
         {taskLists.map((item)=>(
-          <div>
+          <div key={item.id}>
             <p>Task Id : {item.id}</p>
             <p>Task Title : {item.title}</p>
             <p>Task Description : {item.description}</p> 
+            
             <hr />
           </div>
         ))}
