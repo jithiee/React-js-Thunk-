@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
 import { useSelector , useDispatch } from 'react-redux';
-import { getTasksFromServer } from '../slice/taskListSlice';
+import { getTasksFromServer , deleteTaskFromServer } from '../slice/taskListSlice';
+import { useNavigate } from 'react-router-dom';
+
 
 const Tasks = () => {
 
@@ -9,6 +11,7 @@ const Tasks = () => {
   // console.log(is_loading);
   // console.log(error);
   const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   useEffect(()=>{
       dispatch(getTasksFromServer())
@@ -16,6 +19,13 @@ const Tasks = () => {
 
   // console.log(taskLists);
   
+  const handleDelete = (id)=>{
+     const is_confirm = window.confirm("Are you sure you want to delete this task ?")
+     if(is_confirm){
+       dispatch(deleteTaskFromServer(id))
+     }
+  }
+
   
   return (
     <div>
@@ -26,7 +36,9 @@ const Tasks = () => {
             <p>Task Id : {item.id}</p>
             <p>Task Title : {item.title}</p>
             <p>Task Description : {item.description}</p> 
-            
+            <button onClick={()=> handleDelete(item.id)}>delete</button>
+            <button onClick={()=> navigate(`edit/${item.id}`)}>Edit</button>
+        
             <hr />
           </div>
         ))}
@@ -37,3 +49,8 @@ const Tasks = () => {
 }
 
 export default Tasks;
+
+
+
+
+
